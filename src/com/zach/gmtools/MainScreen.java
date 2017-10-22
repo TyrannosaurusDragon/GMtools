@@ -53,7 +53,7 @@ public class MainScreen {
     }
 
     public static void main(String args[]){
-        JFrame frame = new JFrame("GM Tools");
+        JFrame frame = new JFrame("GM Tools hurr durr");
         frame.setContentPane(new MainScreen().mainpanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(500,-1));
