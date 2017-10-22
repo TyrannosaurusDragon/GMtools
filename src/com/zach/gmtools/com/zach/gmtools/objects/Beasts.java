@@ -1,14 +1,15 @@
 package com.zach.gmtools.com.zach.gmtools.objects;
 
-import com.zach.gmtools.FileProcessor;
+import com.zach.gmtools.FileProcessor
+import com.zach.gmtools.Holder
 
 import java.util.ArrayList;
 
-public class Beasts {
+public class Beasts extends Holder {
 
-    private static ArrayList<Beast> beasts = new ArrayList<Beast>();
-    private static int IDCount=0;
-    private int holderID = -1;
+	@Override
+    private static ArrayList<> holder = new ArrayList<Beast>();
+	
 
     public Beasts(){
         IDCount=FileProcessor.loadIDList("Beasts");
