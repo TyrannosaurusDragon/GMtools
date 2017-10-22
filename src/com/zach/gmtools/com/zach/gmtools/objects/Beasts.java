@@ -10,7 +10,7 @@ public class Beasts {
     private static int IDCount=0;
     private int holderID = -1;
 
-    public Beasts(int... holder){
+    public Beasts(){
         IDCount=FileProcessor.loadIDList("Beasts");
         loadAllBeasts();
     }
