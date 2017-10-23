@@ -5,9 +5,8 @@ import com.zach.gmtools.MainScreen;
 
 import java.util.ArrayList;
 
-public class Beast implements Type {
+public class Beast implements com.zach.gmtools.Type {
     public static final String Type = "Beast";
-    public static final String Holder = "Beasts";
     private ArrayList<Item> items = new ArrayList<>();
     private ArrayList<Skill> skills = new ArrayList<>();
     private final Object[][] Values = {
@@ -44,7 +43,6 @@ public class Beast implements Type {
     public Beast(int... id){
         if(id==null){
             new Beast(MainScreen.beasts.getNextID());
-            return;
         } else {
             Values[0][1] = id[0];
         }
@@ -92,7 +90,7 @@ public class Beast implements Type {
                 Object[] tempObj = {Values[i][0],Values[i][1]};
                 toReturn.add(tempObj);
             }
-            FileProcessor.saveSingle(Type, Holder, toReturn);
+            FileProcessor.saveSingle(Type, MainScreen.beasts.getHolderString(), toReturn);
         } catch (Exception e){
             e.printStackTrace();
 
@@ -101,7 +99,7 @@ public class Beast implements Type {
 
     public void readFromFile(){
         try {
-            ArrayList<Object[]> backTalk = FileProcessor.loadSingle(Type, Holder,Integer.parseInt(Values[0][1].toString()));
+            ArrayList<Object[]> backTalk = FileProcessor.loadSingle(Type, MainScreen.beasts.getHolderString(),Integer.parseInt(Values[0][1].toString()));
             if(backTalk == null) return;
             for(int i=0;i<Values.length;i++){
                 for(int j=0;j<backTalk.size();j++){

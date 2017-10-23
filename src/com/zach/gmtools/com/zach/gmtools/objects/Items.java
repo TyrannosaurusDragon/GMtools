@@ -41,20 +41,6 @@ public class Items implements Holder {
     }
 
     @Override
-    public void add(Object obj) {
-        if(!listContains(obj) && obj instanceof Item){
-            items.add((Item)obj);
-        }
-    }
-
-    @Override
-    public void remove(Object obj) {
-        if(listContains(obj)){
-            items.remove(obj);
-        }
-    }
-
-    @Override
     public void loadAll() {
         try {
             items.clear();

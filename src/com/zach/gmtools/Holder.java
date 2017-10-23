@@ -1,8 +1,5 @@
 package com.zach.gmtools;
 
-import com.zach.gmtools.com.zach.gmtools.objects.Type;
-
-import java.io.File;
 import java.util.ArrayList;
 
 public interface Holder {
@@ -10,13 +7,23 @@ public interface Holder {
 	ArrayList<Object> getList();
 	int getIDCount();
 	void setIDCount(int id);
-	void add(Object obj);
-	void remove(Object obj);
 	void loadAll();
 	void saveAll();
 	String getHolderString();
 	Object getByID(int id);
 	ArrayList<Object> getBySearch(String bit);
+
+	default void add(Object obj){
+		if(!listContains(obj)){
+			getList().add(obj);
+		}
+	}
+
+	default void remove(Object obj){
+		if(listContains(obj)){
+			getList().remove(obj);
+		}
+	}
 
 	default void refreshList(){
 		loadIDCount();

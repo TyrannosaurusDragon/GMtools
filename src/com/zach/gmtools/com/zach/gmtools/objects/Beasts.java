@@ -2,6 +2,8 @@ package com.zach.gmtools.com.zach.gmtools.objects;
 
 import com.zach.gmtools.FileProcessor;
 import com.zach.gmtools.Holder;
+import com.zach.gmtools.MainScreen;
+
 import java.util.ArrayList;
 
 public class Beasts implements Holder {
@@ -58,24 +60,10 @@ public class Beasts implements Holder {
     }
 
     @Override
-    public void add(Object obj) {
-        if(!beasts.contains(obj) && obj instanceof Beast){
-            beasts.add(obj);
-        }
-    }
-
-    @Override
-    public void remove(Object obj) {
-        if(beasts.contains(obj)){
-            beasts.remove(obj);
-        }
-    }
-
-    @Override
     public void loadAll() {
         try {
             beasts.clear();
-            ArrayList<Object> tempObj = FileProcessor.getFilesFromFolder(Beast.Holder);
+            ArrayList<Object> tempObj = FileProcessor.getFilesFromFolder(getHolderString());
             if(tempObj==null) return;
             for(int i=0;i<tempObj.size();i++){
                 Beast tempBeast = new Beast(Integer.parseInt(tempObj.get(i).toString()));
