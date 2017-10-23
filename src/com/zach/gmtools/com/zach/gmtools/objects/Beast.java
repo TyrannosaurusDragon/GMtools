@@ -1,10 +1,11 @@
 package com.zach.gmtools.com.zach.gmtools.objects;
 
 import com.zach.gmtools.FileProcessor;
+import com.zach.gmtools.MainScreen;
 
 import java.util.ArrayList;
 
-public class Beast {
+public class Beast implements Type {
     public static final String Type = "Beast";
     public static final String Holder = "Beasts";
     private ArrayList<Item> items = new ArrayList<>();
@@ -42,7 +43,7 @@ public class Beast {
 
     public Beast(int... id){
         if(id==null){
-            new Beast(Beasts.getNextID());
+            new Beast(MainScreen.beasts.getNextID());
             return;
         } else {
             Values[0][1] = id[0];
@@ -94,6 +95,7 @@ public class Beast {
             FileProcessor.saveSingle(Type, Holder, toReturn);
         } catch (Exception e){
             e.printStackTrace();
+
         }
     }
 

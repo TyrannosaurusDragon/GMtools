@@ -1,6 +1,8 @@
 package com.zach.gmtools;
 
 import com.zach.gmtools.com.zach.gmtools.objects.Beasts;
+import com.zach.gmtools.com.zach.gmtools.objects.Items;
+import com.zach.gmtools.com.zach.gmtools.objects.Skills;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,9 +23,10 @@ public class MainScreen {
     private JButton exitbutton;
     public static timeweatherscreen timeweather;
     public static beastiaryscreen beastscreen;
-    public static boolean test = false;
-    public static final Object[] testOb = {test};
     public static Beasts beasts;
+    public static Items items;
+    public static Skills skills;
+
 
     public MainScreen(){
         timeweatherbutton.addActionListener(new ActionListener() {
@@ -63,5 +66,7 @@ public class MainScreen {
         frame.setLocation((screensize.width/2)-(frame.getSize().width/2), (screensize.height/2)-(frame.getSize().height/2));
         frame.setVisible(true);
         beasts = new Beasts();
+        items = new Items();
+        skills = new Skills();
     }
 }

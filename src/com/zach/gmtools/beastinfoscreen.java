@@ -1,7 +1,6 @@
 package com.zach.gmtools;
 
 import com.zach.gmtools.com.zach.gmtools.objects.Beast;
-import com.zach.gmtools.com.zach.gmtools.objects.Beasts;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -134,7 +133,7 @@ public class beastinfoscreen {
             }
         }
         beast.writeToFile();
-        Beasts.addBeast(beast);
+        MainScreen.beasts.add(beast);
     }
 
     public void loadInfo() {

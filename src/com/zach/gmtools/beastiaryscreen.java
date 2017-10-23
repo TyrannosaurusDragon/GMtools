@@ -1,7 +1,6 @@
 package com.zach.gmtools;
 
 import com.zach.gmtools.com.zach.gmtools.objects.Beast;
-import com.zach.gmtools.com.zach.gmtools.objects.Beasts;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -31,7 +30,7 @@ public class beastiaryscreen {
         newbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Beast beast = new Beast(Beasts.getNextID());
+                Beast beast = new Beast(MainScreen.beasts.getNextID());
                 beastinfoscreen bin = new beastinfoscreen(beast);
                 bin.open();
             }
@@ -77,13 +76,17 @@ public class beastiaryscreen {
     }
 
     private Object[][] getData(){
-        if(Beasts.listSize()==0){
+        if(MainScreen.beasts.listSize()==0){
             return new Object[0][0];
         }
         beastsInTable.clear();
-        Object[][] toReturn = new Object[Beasts.listSize()][4];
-        for(int i=0;i<Beasts.listSize();i++){
-            Beast tempBeast = Beasts.getBeastByIndex(i);
+        Object[][] toReturn = new Object[MainScreen.beasts.listSize()][4];
+        for(int i = 0; i<MainScreen.beasts.listSize(); i++){
+            Object tempObj = MainScreen.beasts.getByIndex(i);
+            if(!(tempObj instanceof Beast)){
+                continue;
+            }
+            Beast tempBeast = (Beast)tempObj;
             toReturn[i][0] = tempBeast.getValue("Name");
             toReturn[i][1] = tempBeast.getValue("HP");
             toReturn[i][2] = tempBeast.getValue("CR");

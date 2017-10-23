@@ -1,83 +1,78 @@
 package com.zach.gmtools.com.zach.gmtools.objects;
 
-import com.zach.gmtools.FileProcessor
-import com.zach.gmtools.Holder
-
+import com.zach.gmtools.FileProcessor;
+import com.zach.gmtools.Holder;
 import java.util.ArrayList;
 
-public class Beasts extends Holder {
+public class Beasts implements Holder {
 
-	@Override
-    private static ArrayList<> holder = new ArrayList<Beast>();
-	
+    private int IDCount;
+    private ArrayList<Object> beasts = new ArrayList<>();
 
     public Beasts(){
-        IDCount=FileProcessor.loadIDList("Beasts");
-        loadAllBeasts();
+        loadIDCount();
+        loadAll();
     }
 
-    public void setHolderID(int holderID) {
-        this.holderID = holderID;
+    @Override
+    public ArrayList<Object> getList() {
+        return beasts;
     }
 
-    public int getHolderID(){
-        return this.holderID;
-    }
-
-    public static int listSize(){
-        return beasts.size();
-    }
-
-    public static boolean listContains(Beast b){
-        return beasts.contains(b);
-    }
-
-    public static int getNextID(){
-        IDCount++;
-        saveNextID();
+    @Override
+    public int getIDCount() {
         return IDCount;
     }
 
-    public static void saveNextID(){
-        FileProcessor.saveIDList("Beasts", IDCount);
+    @Override
+    public void setIDCount(int id) {
+        this.IDCount = id;
     }
 
-    public static Beast getBeast(Beast b){
-        if(beasts.contains(b)){
-            return beasts.get(beasts.indexOf(b));
-        } else {
-            return null;
-        }
-    }
-
-    public static Beast getBeastByIndex(int id){
-        return beasts.get(id);
-    }
-
-    public static Beast getBeastByID(int id){
+    @Override
+    public Object getByID(int id) {
         for(int i=0;i<beasts.size();i++){
-            if(beasts.get(i).getValue("ID").equals(id)){
-                return beasts.get(i);
+            Beast tempBeast = (Beast)beasts.get(i);
+            if(tempBeast.getValue("ID").equals(id)){
+                return tempBeast;
             }
         }
         return null;
     }
 
-    public static void addBeast(Beast b){
-        if(!listContains(b)) {
-            beasts.add(b);
-            saveAllBeasts();
+    @Override
+    public ArrayList<Object> getBySearch(String bit) {
+        ArrayList<Object> toReturn = new ArrayList<>();
+        for(int i=0;i<beasts.size();i++){
+            Beast tempBeast = (Beast)beasts.get(i);
+            int valuesSize = tempBeast.getValues().length;
+            for(int j=0;j<valuesSize;j++){
+                if(tempBeast.getValues()[j][1].toString().toLowerCase()
+                        .contains(bit.toLowerCase())){
+                    toReturn.add(tempBeast);
+                    break;
+                }
+            }
+        }
+        return toReturn;
+    }
+
+    @Override
+    public void add(Object obj) {
+        if(!beasts.contains(obj) && obj instanceof Beast){
+            beasts.add(obj);
         }
     }
 
-    public static void removeBeast(Beast b){
-        if(listContains(b)) {
-            beasts.remove(b);
-            saveAllBeasts();
+    @Override
+    public void remove(Object obj) {
+        if(beasts.contains(obj)){
+            beasts.remove(obj);
         }
     }
 
-    public static void loadAllBeasts(){
+    @Override
+    public void loadAll() {
         try {
             beasts.clear();
             ArrayList<Object> tempObj = FileProcessor.getFilesFromFolder(Beast.Holder);
@@ -88,14 +83,19 @@ public class Beasts extends Holder {
                 beasts.add(tempBeast);
             }
         } catch (NumberFormatException e) {
-            e.printStackTrace();
+            e.printStackTrace();//TODO
         }
     }
 
-    public static void saveAllBeasts(){
+    @Override
+    public void saveAll() {
         for(int i=0;i<beasts.size();i++){
-            beasts.get(i).writeToFile();
+            ((Beast)beasts.get(i)).writeToFile();
         }
     }
 
+    @Override
+    public String getHolderString() {
+        return "Beasts";
+    }
 }
