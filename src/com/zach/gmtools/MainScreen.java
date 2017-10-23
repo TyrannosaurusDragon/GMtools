@@ -56,6 +56,9 @@ public class MainScreen {
     }
 
     public static void main(String args[]){
+        beasts = new Beasts();
+        items = new Items();
+        skills = new Skills();
         JFrame frame = new JFrame("GM Tools");
         frame.setContentPane(new MainScreen().mainpanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,8 +68,5 @@ public class MainScreen {
         frame.pack();
         frame.setLocation((screensize.width/2)-(frame.getSize().width/2), (screensize.height/2)-(frame.getSize().height/2));
         frame.setVisible(true);
-        beasts = new Beasts();
-        items = new Items();
-        skills = new Skills();
     }
 }

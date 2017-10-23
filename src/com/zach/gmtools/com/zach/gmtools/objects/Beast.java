@@ -1,15 +1,12 @@
 package com.zach.gmtools.com.zach.gmtools.objects;
 
-import com.zach.gmtools.FileProcessor;
 import com.zach.gmtools.MainScreen;
-
 import java.util.ArrayList;
 
 public class Beast implements com.zach.gmtools.Type {
-    public static final String Type = "Beast";
     private ArrayList<Item> items = new ArrayList<>();
     private ArrayList<Skill> skills = new ArrayList<>();
-    private final Object[][] Values = {
+    private Object[][] Values = {
             {"ID", 0},
             {"HP", 0},
             {"Name", ""},
@@ -52,68 +49,14 @@ public class Beast implements com.zach.gmtools.Type {
         return Values;
     }
 
-    public Object getValue(String type){
-        if (type.equals("Items") || type.equals("Skills")) {
-            return null;//TODO
-        }
-        for(int i=0;i<Values.length;i++){
-            if(Values[i][0].equals(type)){
-                return Values[i][1];
-            }
-        }
-        return null;
+    @Override
+    public String getTypeString() {
+        return "Beast";
     }
 
-    public void saveValue(String type, Object value){
-        try {
-            if(type.equals("Items") || type.equals("Skills")){
-                return;//TODO
-            }
-            for(int i=0;i<Values.length;i++){
-                if(Values[i][0].equals(type)){
-                    Values[i][1] = value;
-                }
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        writeToFile();
+    @Override
+    public String getHolderString() {
+        return "Beasts";
     }
 
-    public void writeToFile(){
-        try {
-            ArrayList<Object[]> toReturn = new ArrayList<>();
-            for(int i=0;i<Values.length;i++){
-                if (Values[i][0].equals("Items") || Values[i][0].equals("Skills")) {
-                    continue;//TODO
-                }
-                Object[] tempObj = {Values[i][0],Values[i][1]};
-                toReturn.add(tempObj);
-            }
-            FileProcessor.saveSingle(Type, MainScreen.beasts.getHolderString(), toReturn);
-        } catch (Exception e){
-            e.printStackTrace();
-
-        }
-    }
-
-    public void readFromFile(){
-        try {
-            ArrayList<Object[]> backTalk = FileProcessor.loadSingle(Type, MainScreen.beasts.getHolderString(),Integer.parseInt(Values[0][1].toString()));
-            if(backTalk == null) return;
-            for(int i=0;i<Values.length;i++){
-                for(int j=0;j<backTalk.size();j++){
-                    if (Values[i][0].equals("Items") || Values[i][0].equals("Skills")) {
-                        continue;//TODO
-                    }
-                    if(Values[i][0] == backTalk.get(j)[0]){
-                        Values[i][1] = backTalk.get(j)[1];
-                    }
-                }
-            }
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-        }
-
-    }
 }

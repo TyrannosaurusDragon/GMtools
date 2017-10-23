@@ -27,7 +27,6 @@ public class FileProcessor {
                     int locationofDot = fileName.indexOf(".");
                     fileName = fileName.substring(0,locationofDot);
                 }
-                System.out.println(fileName+ " Final");
                 toReturn.add(fileName);
             }
             return toReturn;

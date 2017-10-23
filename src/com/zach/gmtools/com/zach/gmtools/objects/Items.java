@@ -2,6 +2,8 @@ package com.zach.gmtools.com.zach.gmtools.objects;
 
 import com.zach.gmtools.FileProcessor;
 import com.zach.gmtools.Holder;
+import com.zach.gmtools.MainScreen;
+
 import java.util.ArrayList;
 
 public class Items implements Holder {
@@ -44,11 +46,11 @@ public class Items implements Holder {
     public void loadAll() {
         try {
             items.clear();
-            ArrayList<Object> tempObj = FileProcessor.getFilesFromFolder(/*Item.Holder*/"");
+            ArrayList<Object> tempObj = FileProcessor.getFilesFromFolder(getHolderString());
             if(tempObj==null) return;
             for(int i=0;i<tempObj.size();i++){
-                Item tempItem = new Item(/*Integer.parseInt(tempObj.get(i).toString())*/);/*TODO*/
-                //TODO tempItem.readFromFile();
+                Item tempItem = new Item(Integer.parseInt(tempObj.get(i).toString()));
+                tempItem.readFromFile();
                 items.add(tempItem);
             }
         } catch (NumberFormatException e) {
@@ -59,7 +61,7 @@ public class Items implements Holder {
     @Override
     public void saveAll() {
         for(int i=0;i<items.size();i++){
-            //TODO items.get(i).writeToFile();
+            ((Item)items.get(i)).writeToFile();
         }
     }
 
