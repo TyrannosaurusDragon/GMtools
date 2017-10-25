@@ -15,9 +15,9 @@ public class FileProcessor {
 
     private static final String home = System.getProperty("user.home")+"/.gmtools/";
 
-    public static ArrayList<Object> getFilesFromFolder(String holder){
+    public static ArrayList<String> getFilesFromFolder(String holder){
         try {
-            ArrayList<Object> toReturn = new ArrayList<>();
+            ArrayList<String> toReturn = new ArrayList<>();
             File folder = new File(home+holder+"/");
             if(!folder.isDirectory()) return null;
             File[] fileList = folder.listFiles();

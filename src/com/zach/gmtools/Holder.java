@@ -1,21 +1,51 @@
 package com.zach.gmtools;
 
+import com.zach.gmtools.com.zach.gmtools.objects.Beast;
+
 import java.util.ArrayList;
 
 public interface Holder {
 
-	ArrayList<Object> getList();
+	ArrayList<Type> getList();
 	int getIDCount();
 	void setIDCount(int id);
-	void loadAll();
-	void saveAll();
 	String getHolderString();
-	Object getByID(int id);
-	ArrayList<Object> getBySearch(String bit);
+	void loadAll();
+
+	default ArrayList<Type> getBySearch(String bit){
+		ArrayList<Type> toReturn = new ArrayList<>();
+		for (int i = 0; i < getList().size(); i++) {
+			Type tempType = getList().get(i);
+			for (int j = 0; j < tempType.getValues().size(); j++) {
+				if(tempType.getValues().get(j).toString().toLowerCase().contains(bit.toLowerCase())){
+					if(!toReturn.contains(tempType)){
+						toReturn.add(tempType);
+					}
+				}
+			}
+		}
+		return toReturn;
+	}
+
+	default Type getByID(int id){
+		for(int i=0;i<getList().size();i++){
+			Type tempType = getList().get(i);
+			if(tempType.getValue("ID").equals(id)){
+				return tempType;
+			}
+		}
+		return null;
+	}
+
+	default void saveAll(){
+		for(int i=0;i<getList().size();i++){
+			(getList().get(i)).writeToFile();
+		}
+	}
 
 	default void add(Object obj){
 		if(!listContains(obj)){
-			getList().add(obj);
+			getList().add((Type)obj);
 		}
 	}
 
@@ -55,7 +85,7 @@ public interface Holder {
 		FileProcessor.saveIDList(getHolderString(), getIDCount());
 	}
 
-	default Object getByIndex(int index){
+	default Type getByIndex(int index){
 		return getList().get(index);
 	}
 }

@@ -3,12 +3,13 @@ package com.zach.gmtools.com.zach.gmtools.objects;
 import com.zach.gmtools.FileProcessor;
 import com.zach.gmtools.Holder;
 import com.zach.gmtools.MainScreen;
+import com.zach.gmtools.Type;
 
 import java.util.ArrayList;
 
 public class Items implements Holder {
 
-    private ArrayList<Object> items = new ArrayList<>();
+    private ArrayList<Type> items = new ArrayList<>();
     private int IDCount;
 
 
@@ -18,7 +19,7 @@ public class Items implements Holder {
     }
 
     @Override
-    public ArrayList<Object> getList() {
+    public ArrayList<Type> getList() {
         return items;
     }
 
@@ -33,35 +34,18 @@ public class Items implements Holder {
     }
 
     @Override
-    public Object getByID(int id) {
-        return null;//TODO
-    }
-
-    @Override
-    public ArrayList<Object> getBySearch(String bit) {
-        return null;//TODO
-    }
-
-    @Override
     public void loadAll() {
         try {
-            items.clear();
-            ArrayList<Object> tempObj = FileProcessor.getFilesFromFolder(getHolderString());
+            getList().clear();
+            ArrayList<String> tempObj = FileProcessor.getFilesFromFolder(getHolderString());
             if(tempObj==null) return;
             for(int i=0;i<tempObj.size();i++){
-                Item tempItem = new Item(Integer.parseInt(tempObj.get(i).toString()));
+                Item tempItem = new Item(Integer.parseInt(tempObj.get(i)));
                 tempItem.readFromFile();
-                items.add(tempItem);
+                getList().add(tempItem);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();//TODO
-        }
-    }
-
-    @Override
-    public void saveAll() {
-        for(int i=0;i<items.size();i++){
-            ((Item)items.get(i)).writeToFile();
         }
     }
 

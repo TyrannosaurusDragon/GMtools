@@ -1,7 +1,8 @@
 package com.zach.gmtools.com.zach.gmtools.objects;
 
-import com.zach.gmtools.MainScreen;
 import com.zach.gmtools.Type;
+
+import java.util.ArrayList;
 
 public class Item implements Type {
 
@@ -9,12 +10,10 @@ public class Item implements Type {
 
     }
 
-    private Object[][] Values = {
-            {}
-    };
+    private ArrayList<Object[]> Values = new ArrayList<>();
 
     @Override
-    public Object[][] getValues() {
+    public ArrayList<Object[]> getValues() {
         return Values;
     }
 
@@ -26,5 +25,10 @@ public class Item implements Type {
     @Override
     public String getHolderString() {
         return "Items";
+    }
+
+    @Override
+    public void setupValues() {
+
     }
 }

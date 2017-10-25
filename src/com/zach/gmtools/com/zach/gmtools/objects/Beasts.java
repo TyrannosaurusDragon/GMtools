@@ -2,13 +2,14 @@ package com.zach.gmtools.com.zach.gmtools.objects;
 
 import com.zach.gmtools.FileProcessor;
 import com.zach.gmtools.Holder;
+import com.zach.gmtools.Type;
 
 import java.util.ArrayList;
 
 public class Beasts implements Holder {
 
     private int IDCount;
-    private ArrayList<Object> beasts = new ArrayList<>();
+    private ArrayList<Type> beasts = new ArrayList<>();
 
     public Beasts(){
         loadIDCount();
@@ -16,7 +17,7 @@ public class Beasts implements Holder {
     }
 
     @Override
-    public ArrayList<Object> getList() {
+    public ArrayList<Type> getList() {
         return beasts;
     }
 
@@ -31,58 +32,23 @@ public class Beasts implements Holder {
     }
 
     @Override
-    public Object getByID(int id) {
-        for(int i=0;i<beasts.size();i++){
-            Beast tempBeast = (Beast)beasts.get(i);
-            if(tempBeast.getValue("ID").equals(id)){
-                return tempBeast;
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public ArrayList<Object> getBySearch(String bit) {
-        ArrayList<Object> toReturn = new ArrayList<>();
-        for(int i=0;i<beasts.size();i++){
-            Beast tempBeast = (Beast)beasts.get(i);
-            int valuesSize = tempBeast.getValues().length;
-            for(int j=0;j<valuesSize;j++){
-                if(tempBeast.getValues()[j][1].toString().toLowerCase()
-                        .contains(bit.toLowerCase())){
-                    toReturn.add(tempBeast);
-                    break;
-                }
-            }
-        }
-        return toReturn;
+    public String getHolderString() {
+        return "Beasts";
     }
 
     @Override
     public void loadAll() {
         try {
-            beasts.clear();
-            ArrayList<Object> tempObj = FileProcessor.getFilesFromFolder(getHolderString());
+            getList().clear();
+            ArrayList<String> tempObj = FileProcessor.getFilesFromFolder(getHolderString());
             if(tempObj==null) return;
             for(int i=0;i<tempObj.size();i++){
-                Beast tempBeast = new Beast(Integer.parseInt(tempObj.get(i).toString()));
+                Beast tempBeast = new Beast(Integer.parseInt(tempObj.get(i)));
                 tempBeast.readFromFile();
-                beasts.add(tempBeast);
+                getList().add(tempBeast);
             }
         } catch (NumberFormatException e) {
             e.printStackTrace();//TODO
         }
-    }
-
-    @Override
-    public void saveAll() {
-        for(int i=0;i<beasts.size();i++){
-            ((Beast)beasts.get(i)).writeToFile();
-        }
-    }
-
-    @Override
-    public String getHolderString() {
-        return "Beasts";
     }
 }
