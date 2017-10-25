@@ -1,5 +1,6 @@
 package com.zach.gmtools.com.zach.gmtools.objects;
 
+import com.zach.gmtools.MainScreen;
 import com.zach.gmtools.Type;
 
 import java.util.ArrayList;
@@ -7,7 +8,11 @@ import java.util.ArrayList;
 public class Item implements Type {
 
     public Item(int... id){
-
+        if(id==null){
+            new Item(MainScreen.items.getNextID());
+        } else {
+            Values.add(new Object[]{"ID",id});
+        }
     }
 
     private ArrayList<Object[]> Values = new ArrayList<>();
@@ -25,10 +30,5 @@ public class Item implements Type {
     @Override
     public String getHolderString() {
         return "Items";
-    }
-
-    @Override
-    public void setupValues() {
-
     }
 }

@@ -7,7 +7,6 @@ public interface Type {
     ArrayList<Object[]> getValues();
     String getTypeString();
     String getHolderString();
-    void setupValues();
 
     default void readFromFile(){
         try {
@@ -25,8 +24,11 @@ public interface Type {
             for(int i=0;i<getValues().size();i++){
                 if(getValues().get(i)[0].equals(type)){
                     getValues().get(i)[1] = value;
+                    return;
                 }
             }
+            Object[] tempIbj = {type, value};
+            getValues().add(tempIbj);
         } catch(Exception e){
             e.printStackTrace();
         }

@@ -1,8 +1,10 @@
 package com.zach.gmtools;
 
 import com.zach.gmtools.com.zach.gmtools.objects.Beast;
+import com.zach.gmtools.libs.ButtonColumn;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
@@ -30,22 +32,28 @@ public class beastiaryscreen {
         newbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Beast beast = new Beast(MainScreen.beasts.getNextID());
-                beastinfoscreen bin = new beastinfoscreen(beast);
+                beastinfoscreen bin = new beastinfoscreen(MainScreen.beasts.getNextID());
                 bin.open();
             }
         });
         beaststable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent me) {
+                JTable table = (JTable)me.getSource();
+                int column = table.columnAtPoint(me.getPoint());
+                int row = table.rowAtPoint(me.getPoint());
+                if(column==4){
+                    Beast beast = beastsInTable.get(row);
+                    //TODO
+                    MainScreen.beasts.remove(beast);
+                    refreshTable();
+                }
                 if(me.getClickCount()==2){
-                    JTable table = (JTable)me.getSource();
-                    int row = table.rowAtPoint(me.getPoint());
                     if(row<0){
                         return;
                     }
                     Beast b = beastsInTable.get(row);
-                    beastinfoscreen beastinfo = new beastinfoscreen(b);
+                    beastinfoscreen beastinfo = new beastinfoscreen(Integer.parseInt(b.getValue("ID").toString()));
                     beastinfo.open();
                 }
             }
@@ -58,7 +66,18 @@ public class beastiaryscreen {
         });
     }
 
+    private void deleteButtonPress(int id){
+
+    }
+
     private void refreshTable(){
+        Action deleteButtonPressed = new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO REMOVE
+                System.out.println("Clicked");
+            }
+        };
         TableModel tableModel = new DefaultTableModel(getData(), getColumns()){
             @Override
             public boolean isCellEditable(int row, int column){
@@ -67,12 +86,14 @@ public class beastiaryscreen {
         };
         beaststable.setModel(tableModel);
         beaststable.setFillsViewportHeight(true);
+        ButtonColumn bc = new ButtonColumn(beaststable, deleteButtonPressed, 4);
+        bc.setFocusBorder(new LineBorder(Color.red));
         beastsbox.getViewport().add(beaststable);
         beastsbox.repaint();
     }
 
     private String[] getColumns(){
-        return new String[]{"Name","HP","CR","XP"};
+        return new String[]{"Name","HP","CR","XP","DEL"};
     }
 
     private Object[][] getData(){
@@ -80,7 +101,7 @@ public class beastiaryscreen {
             return new Object[0][0];
         }
         beastsInTable.clear();
-        Object[][] toReturn = new Object[MainScreen.beasts.listSize()][4];
+        Object[][] toReturn = new Object[MainScreen.beasts.listSize()][5];
         for(int i = 0; i<MainScreen.beasts.listSize(); i++){
             Object tempObj = MainScreen.beasts.getByIndex(i);
             if(!(tempObj instanceof Beast)){
@@ -91,6 +112,7 @@ public class beastiaryscreen {
             toReturn[i][1] = tempBeast.getValue("HP");
             toReturn[i][2] = tempBeast.getValue("CR");
             toReturn[i][3] = tempBeast.getValue("XP");
+            toReturn[i][4] = "X";
             beastsInTable.add(tempBeast);
         }
         return toReturn;

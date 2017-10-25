@@ -15,12 +15,24 @@ public class FileProcessor {
 
     private static final String home = System.getProperty("user.home")+"/.gmtools/";
 
+    public static void deleteFile(String holder, String id){
+        File tempFile = new File(home+holder+"/"+id+".xml");
+        if(!tempFile.exists()){
+            return;
+        }
+        boolean complete = tempFile.delete();
+        if(!complete){
+            //TODO
+        }
+    }
+
     public static ArrayList<String> getFilesFromFolder(String holder){
         try {
             ArrayList<String> toReturn = new ArrayList<>();
             File folder = new File(home+holder+"/");
             if(!folder.isDirectory()) return null;
             File[] fileList = folder.listFiles();
+            if (fileList==null) return null;
             for(int i=0;i<fileList.length;i++){
                 String fileName = fileList[i].getName();
                 if(fileName.contains(".")){
@@ -175,6 +187,7 @@ public class FileProcessor {
     public static void saveSingle(String type, String holder, ArrayList<Object[]> data){
         try{
             File saveFile = new File(home+holder+"/"+data.get(0)[1]+".xml");
+            System.out.println(saveFile.getName());
             if(!saveFile.exists()){
                 saveFile.getParentFile().mkdirs();
             }

@@ -17,7 +17,7 @@ public interface Holder {
 		for (int i = 0; i < getList().size(); i++) {
 			Type tempType = getList().get(i);
 			for (int j = 0; j < tempType.getValues().size(); j++) {
-				if(tempType.getValues().get(j).toString().toLowerCase().contains(bit.toLowerCase())){
+				if(tempType.getValues().get(j)[1].toString().toLowerCase().contains(bit.toLowerCase())){
 					if(!toReturn.contains(tempType)){
 						toReturn.add(tempType);
 					}
@@ -43,15 +43,16 @@ public interface Holder {
 		}
 	}
 
-	default void add(Object obj){
+	default void add(Type obj){
 		if(!listContains(obj)){
 			getList().add((Type)obj);
 		}
 	}
 
-	default void remove(Object obj){
+	default void remove(Type obj){
 		if(listContains(obj)){
 			getList().remove(obj);
+			FileProcessor.deleteFile(getHolderString(), obj.getValue("ID").toString());
 		}
 	}
 

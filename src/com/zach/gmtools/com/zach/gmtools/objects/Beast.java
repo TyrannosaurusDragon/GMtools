@@ -7,7 +7,7 @@ import java.util.Arrays;
 public class Beast implements com.zach.gmtools.Type {
     private ArrayList<Item> items = new ArrayList<>();
     private ArrayList<Skill> skills = new ArrayList<>();
-    private Object[][] defines = {
+    /*private Object[][] defines = {
             {"ID", 0},
             {"HP", 0},
             {"Name", ""},
@@ -36,18 +36,17 @@ public class Beast implements com.zach.gmtools.Type {
             {"Skills", skills},
             {"Items", items},
             {"Special", ""}
-    };
+    };*/
 
-    private ArrayList<Object[]> Values = new ArrayList<>();
+    private ArrayList<Object[]> Values;
 
     public Beast(int... id){
-        setupValues();
+        Values = new ArrayList<>();
         if(id==null){
             new Beast(MainScreen.beasts.getNextID());
         } else {
-            Values.get(0)[1] = id[0];
+            Values.add(new Object[]{"ID",id[0]});
         }
-
     }
 
     public ArrayList<Object[]> getValues(){
@@ -62,12 +61,6 @@ public class Beast implements com.zach.gmtools.Type {
     @Override
     public String getHolderString() {
         return "Beasts";
-    }
-
-    @Override
-    public void setupValues() {
-        Values.clear();
-        Values.addAll(Arrays.asList(defines));
     }
 
 }

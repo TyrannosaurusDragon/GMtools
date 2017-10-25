@@ -2,7 +2,6 @@ package com.zach.gmtools.com.zach.gmtools.objects;
 
 import com.zach.gmtools.FileProcessor;
 import com.zach.gmtools.Holder;
-import com.zach.gmtools.MainScreen;
 import com.zach.gmtools.Type;
 
 import java.util.ArrayList;
