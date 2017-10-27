@@ -28,9 +28,10 @@ public interface Holder {
 	}
 
 	default Type getByID(int id){
+		System.out.println(getList().size());
 		for(int i=0;i<getList().size();i++){
 			Type tempType = getList().get(i);
-			if(tempType.getValue("ID").equals(id)){
+			if(tempType.getID()==id){
 				return tempType;
 			}
 		}

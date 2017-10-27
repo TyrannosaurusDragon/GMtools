@@ -7,6 +7,7 @@ import javax.swing.text.JTextComponent;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class beastinfoscreen {
     private JPanel mainpanel;
@@ -77,7 +78,8 @@ public class beastinfoscreen {
     private JPanel initPanel;
     private JButton saveButton;
     private JPanel savePanel;
-    private int beast;
+    private int bID;
+    private boolean newThing=false;
     private final Object[][] boxes = {
             {"HP", hpBox},
             {"Name", nameBox},
@@ -108,9 +110,10 @@ public class beastinfoscreen {
             {"Special", specialBox}
     };
 
-    public beastinfoscreen(int b){
-        this.beast = b;
-        loadInfo();
+    public beastinfoscreen(int b, boolean newClick){
+        bID = b;
+        if(!newClick) loadInfo();
+        newThing=newClick;
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,33 +123,43 @@ public class beastinfoscreen {
     }
 
     public void saveInfo(){
-        Beast tempBeast = new Beast(beast);
-        MainScreen.beasts.add(tempBeast);
+        Beast me;
+        if(newThing){
+            me = new Beast(bID);
+        } else {
+            me = (Beast)MainScreen.beasts.getByID(bID);
+        }
         for(int i=0;i<boxes.length;i++){
             if(boxes[i][1] instanceof JTextComponent){
                 if(boxes[i][0].equals("Skills") || boxes[i][0].equals("Items")){
                     continue;//TODO
                 }
-                MainScreen.beasts.getByID(beast).saveValue(boxes[i][0].toString(),((JTextComponent)boxes[i][1]).getText());
+                me.saveValue(boxes[i][0].toString(),((JTextComponent)boxes[i][1]).getText());
             }
+        }
+        if(newThing){
+            me.writeToFile();
+            MainScreen.beasts.add(me);
+            newThing = false;
+        } else {
+            me.writeToFile();
         }
     }
 
     public void loadInfo() {
-        if(MainScreen.beasts.getByID(beast)==null){
-            return;
-        }
-        for (int i = 0; i < MainScreen.beasts.getByID(beast).getValues().size(); i++) {
+        ArrayList<Object[]> dotSize = MainScreen.beasts.getByID(bID).getValues();
+        for (int i = 0; i < dotSize.size(); i++) {
             for (int j = 0; j < boxes.length; j++) {
-                if(MainScreen.beasts.getByID(beast).getValues().get(i)[0].equals(boxes[j][0])){
-                    boxes[j][1] = MainScreen.beasts.getByID(beast).getValues().get(i)[1];
+                if(dotSize.get(i)[0].equals(boxes[j][0])){
+                    boxes[j][1] = MainScreen.beasts.getByID(bID).getValues().get(i)[1];
+                    return;
                 }
             }
         }
     }
 
     public void open(){
-        frame = new JFrame("Beast Info: "+beast);
+        frame = new JFrame("Beast Info: "+bID);
         frame.setContentPane(mainpanel);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);

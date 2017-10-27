@@ -1,4 +1,4 @@
-package com.zach.gmtools.libs;
+package com.zach.gmtools;
 
 import java.awt.*;
 import java.awt.event.*;

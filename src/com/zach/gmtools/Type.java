@@ -8,6 +8,13 @@ public interface Type {
     String getTypeString();
     String getHolderString();
 
+    default int getID(){
+        if(getValues().size()>0){
+            return Integer.parseInt(getValue("ID").toString());
+        }
+        return -1;
+    }
+
     default void readFromFile(){
         try {
             ArrayList<Object[]> backTalk = FileProcessor.loadSingle(getTypeString(), getHolderString(),Integer.parseInt(getValues().get(0)[1].toString()));

@@ -1,7 +1,6 @@
 package com.zach.gmtools;
 
 import com.zach.gmtools.com.zach.gmtools.objects.Beast;
-import com.zach.gmtools.libs.ButtonColumn;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -32,7 +31,9 @@ public class beastiaryscreen {
         newbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                beastinfoscreen bin = new beastinfoscreen(MainScreen.beasts.getNextID());
+                Beast b = new Beast(null);
+                int bID = b.getID();
+                beastinfoscreen bin = new beastinfoscreen(bID, true);
                 bin.open();
             }
         });
@@ -44,16 +45,15 @@ public class beastiaryscreen {
                 int row = table.rowAtPoint(me.getPoint());
                 if(column==4){
                     Beast beast = beastsInTable.get(row);
-                    //TODO
-                    MainScreen.beasts.remove(beast);
-                    refreshTable();
+                    deleteButtonPress(beast);
                 }
                 if(me.getClickCount()==2){
                     if(row<0){
                         return;
                     }
                     Beast b = beastsInTable.get(row);
-                    beastinfoscreen beastinfo = new beastinfoscreen(Integer.parseInt(b.getValue("ID").toString()));
+                    int bID = b.getID();
+                    beastinfoscreen beastinfo = new beastinfoscreen(bID, false);
                     beastinfo.open();
                 }
             }
@@ -66,8 +66,10 @@ public class beastiaryscreen {
         });
     }
 
-    private void deleteButtonPress(int id){
-
+    private void deleteButtonPress(Beast beast){
+        MainScreen.beasts.remove(beast);
+        refreshTable();
+        //TODO
     }
 
     private void refreshTable(){
@@ -86,14 +88,14 @@ public class beastiaryscreen {
         };
         beaststable.setModel(tableModel);
         beaststable.setFillsViewportHeight(true);
-        ButtonColumn bc = new ButtonColumn(beaststable, deleteButtonPressed, 4);
+        com.zach.gmtools.ButtonColumn bc = new com.zach.gmtools.ButtonColumn(beaststable, deleteButtonPressed, 4);
         bc.setFocusBorder(new LineBorder(Color.red));
         beastsbox.getViewport().add(beaststable);
         beastsbox.repaint();
     }
 
     private String[] getColumns(){
-        return new String[]{"Name","HP","CR","XP","DEL"};
+        return new String[]{"Name","HP","CR","XP","DELETE"};
     }
 
     private Object[][] getData(){
