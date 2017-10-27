@@ -2,23 +2,23 @@ package com.zach.gmtools.com.zach.gmtools.objects;
 
 import com.zach.gmtools.MainScreen;
 import com.zach.gmtools.Type;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Item implements Type {
 
+    private HashMap<String, Object> Values;
+
     public Item(int... id){
+        Values = new HashMap<>();
         if(id==null){
             new Item(MainScreen.items.getNextID());
         } else {
-            Values.add(new Object[]{"ID",id});
+            Values.put("ID", id[0]);
         }
     }
 
-    private ArrayList<Object[]> Values = new ArrayList<>();
-
     @Override
-    public ArrayList<Object[]> getValues() {
+    public HashMap<String, Object> getValues() {
         return Values;
     }
 

@@ -8,7 +8,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -28,14 +27,11 @@ public class beastiaryscreen {
     public beastiaryscreen(){
         refreshTable();
 
-        newbutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Beast b = new Beast(null);
-                int bID = b.getID();
-                beastinfoscreen bin = new beastinfoscreen(bID, true);
-                bin.open();
-            }
+        newbutton.addActionListener(e -> {
+            Beast b = new Beast();
+            int bID = b.getID();
+            beastinfoscreen bin = new beastinfoscreen(bID, true);
+            bin.open();
         });
         beaststable.addMouseListener(new MouseAdapter() {
             @Override
@@ -58,12 +54,7 @@ public class beastiaryscreen {
                 }
             }
         });
-        refreshButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                refreshTable();
-            }
-        });
+        refreshButton.addActionListener(e -> refreshTable());
     }
 
     private void deleteButtonPress(Beast beast){

@@ -6,8 +6,6 @@ import com.zach.gmtools.com.zach.gmtools.objects.Skills;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MainScreen {
 
@@ -29,30 +27,19 @@ public class MainScreen {
 
 
     public MainScreen(){
-        timeweatherbutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(timeweather==null){
-                    timeweather = new timeweatherscreen();
-                }
-                timeweather.open();
+        timeweatherbutton.addActionListener(e -> {
+            if(timeweather==null){
+                timeweather = new timeweatherscreen();
             }
+            timeweather.open();
         });
-        beastiarybutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(beastscreen==null){
-                    beastscreen = new beastiaryscreen();
-                }
-                beastscreen.open();
+        beastiarybutton.addActionListener(e -> {
+            if(beastscreen==null){
+                beastscreen = new beastiaryscreen();
             }
+            beastscreen.open();
         });
-        exitbutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.exit(0);
-            }
-        });
+        exitbutton.addActionListener(e -> System.exit(0));
     }
 
     public static void main(String args[]){

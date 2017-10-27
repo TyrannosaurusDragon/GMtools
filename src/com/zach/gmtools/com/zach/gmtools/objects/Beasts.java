@@ -42,11 +42,11 @@ public class Beasts implements Holder {
             getList().clear();
             ArrayList<String> tempObj = FileProcessor.getFilesFromFolder(getHolderString());
             if(tempObj==null) return;
-            for(int i=0;i<tempObj.size();i++){
-                Beast tempBeast = new Beast(Integer.parseInt(tempObj.get(i)));
+            tempObj.forEach(i->{
+                Beast tempBeast = new Beast(Integer.parseInt(i));
                 tempBeast.readFromFile();
                 getList().add(tempBeast);
-            }
+            });
         } catch (NumberFormatException e) {
             e.printStackTrace();//TODO
         }

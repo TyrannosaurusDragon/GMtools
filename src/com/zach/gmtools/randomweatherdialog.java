@@ -2,8 +2,6 @@ package com.zach.gmtools;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class randomweatherdialog extends JDialog {
@@ -27,11 +25,7 @@ public class randomweatherdialog extends JDialog {
         setMinimumSize(new Dimension(200,100));
         Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((screensize.width/2)-(getSize().width/2), (screensize.height/2)-(getSize().height/2));
-        buttonOK.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                onOK();
-            }
-        });
+        buttonOK.addActionListener(e -> onOK());
     }
 
     private String getRandomEffect(){

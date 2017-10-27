@@ -38,11 +38,11 @@ public class Items implements Holder {
             getList().clear();
             ArrayList<String> tempObj = FileProcessor.getFilesFromFolder(getHolderString());
             if(tempObj==null) return;
-            for(int i=0;i<tempObj.size();i++){
-                Item tempItem = new Item(Integer.parseInt(tempObj.get(i)));
+            tempObj.forEach(strng -> {
+                Item tempItem = new Item(Integer.parseInt(strng));
                 tempItem.readFromFile();
                 getList().add(tempItem);
-            }
+            });
         } catch (NumberFormatException e) {
             e.printStackTrace();//TODO
         }

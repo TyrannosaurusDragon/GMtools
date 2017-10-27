@@ -1,10 +1,7 @@
 package com.zach.gmtools;
 
 import javax.swing.*;
-import javax.tools.Tool;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class timeweatherscreen {
 
@@ -22,41 +19,20 @@ public class timeweatherscreen {
     private JTextField daybox;
 
     public timeweatherscreen(){
-        randomweather.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                randomweatherdialog rwd = new randomweatherdialog();
-                rwd.setVisible(true);
-            }
+        randomweather.addActionListener(e -> {
+            randomweatherdialog rwd = new randomweatherdialog();
+            rwd.setVisible(true);
         });
-        addhour.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addTime(1,0,0,0);
-            }
-        });
-        add10min.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addTime(0,10,0,0);
-            }
-        });
-        add1min.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                addTime(0,1,0,0);
-            }
-        });
-        setbutton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(!timebox.isEditable()&&!daybox.isEditable()){
-                    timebox.setEditable(true);
-                    daybox.setEditable(true);
-                } else {
-                    timebox.setEditable(false);
-                    daybox.setEditable(false);
-                }
+        addhour.addActionListener(e -> addTime(1,0,0,0));
+        add10min.addActionListener(e -> addTime(0,10,0,0));
+        add1min.addActionListener(e -> addTime(0,1,0,0));
+        setbutton.addActionListener(e -> {
+            if(!timebox.isEditable()&&!daybox.isEditable()){
+                timebox.setEditable(true);
+                daybox.setEditable(true);
+            } else {
+                timebox.setEditable(false);
+                daybox.setEditable(false);
             }
         });
     }

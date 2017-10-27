@@ -1,8 +1,9 @@
 package com.zach.gmtools;
 
-import com.zach.gmtools.com.zach.gmtools.objects.Beast;
-
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public interface Holder {
 
@@ -16,11 +17,13 @@ public interface Holder {
 		ArrayList<Type> toReturn = new ArrayList<>();
 		for (int i = 0; i < getList().size(); i++) {
 			Type tempType = getList().get(i);
-			for (int j = 0; j < tempType.getValues().size(); j++) {
-				if(tempType.getValues().get(j)[1].toString().toLowerCase().contains(bit.toLowerCase())){
-					if(!toReturn.contains(tempType)){
-						toReturn.add(tempType);
-					}
+			Set<Map.Entry<String,Object>> tempSet = getList().get(i).getValues().entrySet();
+			for (Map.Entry<String, Object> tempObject : tempSet) {
+				Object value = tempObject.getValue();
+				if (!(value instanceof String)) continue;
+				if (((String) value).toLowerCase().contains(bit.toLowerCase())) {
+					toReturn.add(tempType);
+					break;
 				}
 			}
 		}
@@ -46,7 +49,7 @@ public interface Holder {
 
 	default void add(Type obj){
 		if(!listContains(obj)){
-			getList().add((Type)obj);
+			getList().add(obj);
 		}
 	}
 
@@ -66,7 +69,7 @@ public interface Holder {
 		return getList().size();
 	}
 
-	default boolean listContains(Object obj){
+	default boolean listContains(Type obj){
 		return getList().contains(obj);
 	}
 

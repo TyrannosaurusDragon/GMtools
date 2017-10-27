@@ -9,7 +9,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 public class FileProcessor {
 
@@ -33,14 +33,15 @@ public class FileProcessor {
             if(!folder.isDirectory()) return null;
             File[] fileList = folder.listFiles();
             if (fileList==null) return null;
-            for(int i=0;i<fileList.length;i++){
-                String fileName = fileList[i].getName();
+            List<File> trueList = Arrays.asList(fileList);
+            trueList.forEach(i->{
+                String fileName = i.getName();
                 if(fileName.contains(".")){
                     int locationofDot = fileName.indexOf(".");
                     fileName = fileName.substring(0,locationofDot);
                 }
                 toReturn.add(fileName);
-            }
+            });
             return toReturn;
         } catch (Exception e){
             e.printStackTrace();
@@ -159,18 +160,17 @@ public class FileProcessor {
 
             Element rootElement = doc.createElement(holder);
 
-            for(int j=0;j<data.size();j++) {
-                Object[][] container = data.get(j);
+            data.forEach(f->{
                 Element object = doc.createElement(type);
-                object.setAttribute(container[0][0].toString(), container[0][1].toString());
+                object.setAttribute(f[0][0].toString(), f[0][1].toString());
                 rootElement.appendChild(object);
 
-                for (int i = 1; i < container.length; i++) {
-                    Element ele = doc.createElement(container[i][0].toString());
-                    ele.appendChild(doc.createTextNode(container[i][1].toString()));
+                for (int i = 1; i < f.length; i++) {
+                    Element ele = doc.createElement(f[i][0].toString());
+                    ele.appendChild(doc.createTextNode(f[i][1].toString()));
                     object.appendChild(ele);
                 }
-            }
+            });
 
             doc.appendChild(rootElement);
 
@@ -184,9 +184,9 @@ public class FileProcessor {
             e.printStackTrace();
         }
     }
-    public static void saveSingle(String type, String holder, ArrayList<Object[]> data){
+    public static void saveSingle(String type, String holder, HashMap<String,Object> data){
         try{
-            File saveFile = new File(home+holder+"/"+data.get(0)[1]+".xml");
+            File saveFile = new File(home+holder+"/"+data.get("ID")+".xml");
             System.out.println(saveFile.getName());
             if(!saveFile.exists()){
                 saveFile.getParentFile().mkdirs();
@@ -197,14 +197,15 @@ public class FileProcessor {
 
             Element rootElement = doc.createElement(holder);
             Element typeObject = doc.createElement(type);
-            typeObject.setAttribute(data.get(0)[0].toString(),data.get(0)[1].toString());
+            typeObject.setAttribute("ID",data.get("ID").toString());
 
-            for(int i=1;i<data.size();i++){
-                Object[] tempObj = data.get(i);
-                Element name = doc.createElement(tempObj[0].toString());
-                name.appendChild(doc.createTextNode(tempObj[1].toString()));
+            Set<Map.Entry<String,Object>> tempSet = data.entrySet();
+
+            tempSet.forEach(i->{
+                Element name = doc.createElement(i.getKey());
+                name.appendChild(doc.createTextNode(i.getValue().toString()));
                 typeObject.appendChild(name);
-            }
+            });
 
             rootElement.appendChild(typeObject);
             doc.appendChild(rootElement);
@@ -219,7 +220,7 @@ public class FileProcessor {
             e.printStackTrace();
         }
     }
-    public static ArrayList<Object[]> loadSingle(String type, String holder, int id){
+    public static HashMap<String,Object> loadSingle(String type, String holder, int id){
         try{
             File loadFile = new File(home+holder+"/"+id+".xml");
             if(!loadFile.exists()){
@@ -233,15 +234,14 @@ public class FileProcessor {
 
             NodeList nList = doc.getElementsByTagName(type);
 
-            ArrayList<Object[]> toReturn = new ArrayList<>();
+            HashMap<String,Object> toReturn = new HashMap<>();
             for(int i=0;i<nList.getLength();i++){
                 Node tempNode = nList.item(i);
                 if(tempNode.getNodeType()!=Node.ELEMENT_NODE){
                     continue;
                 }
                 NamedNodeMap namedNodeMap = tempNode.getAttributes();
-                Object[] idObject = {namedNodeMap.item(0).getNodeName(),namedNodeMap.item(0).getTextContent()};
-                toReturn.add(idObject);
+                toReturn.put(namedNodeMap.item(0).getNodeName(), namedNodeMap.item(0).getNodeValue());
                 if(!tempNode.hasChildNodes()){
                     continue;
                 }
@@ -251,8 +251,7 @@ public class FileProcessor {
                         continue;
                     }
                     Element tempElement = (Element)objectData.item(j);
-                    Object[] tempObj = {tempElement.getTagName(),tempElement.getTextContent()};
-                    toReturn.add(tempObj);
+                    toReturn.put(tempElement.getTagName(), tempElement.getTextContent());
                 }
             }
             return toReturn;

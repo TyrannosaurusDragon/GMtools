@@ -2,7 +2,7 @@ package com.zach.gmtools.com.zach.gmtools.objects;
 
 import com.zach.gmtools.MainScreen;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 public class Beast implements com.zach.gmtools.Type {
     private ArrayList<Item> items = new ArrayList<>();
@@ -38,18 +38,18 @@ public class Beast implements com.zach.gmtools.Type {
             {"Special", ""}
     };*/
 
-    private ArrayList<Object[]> Values;
+    private HashMap<String, Object> Values;
 
     public Beast(int... id){
-        Values = new ArrayList<>();
+        Values = new HashMap<>();
         if(id==null){
             new Beast(MainScreen.beasts.getNextID());
         } else {
-            Values.add(new Object[]{"ID",id[0]});
+            Values.put("ID",id[0]);
         }
     }
 
-    public ArrayList<Object[]> getValues(){
+    public HashMap<String, Object> getValues(){
         return Values;
     }
 

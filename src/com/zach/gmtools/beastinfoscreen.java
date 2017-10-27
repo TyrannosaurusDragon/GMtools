@@ -5,9 +5,7 @@ import com.zach.gmtools.com.zach.gmtools.objects.Beast;
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.util.*;
 
 public class beastinfoscreen {
     private JPanel mainpanel;
@@ -114,12 +112,7 @@ public class beastinfoscreen {
         bID = b;
         if(!newClick) loadInfo();
         newThing=newClick;
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                saveInfo();
-            }
-        });
+        saveButton.addActionListener(e -> saveInfo());
     }
 
     public void saveInfo(){
@@ -129,12 +122,12 @@ public class beastinfoscreen {
         } else {
             me = (Beast)MainScreen.beasts.getByID(bID);
         }
-        for(int i=0;i<boxes.length;i++){
-            if(boxes[i][1] instanceof JTextComponent){
-                if(boxes[i][0].equals("Skills") || boxes[i][0].equals("Items")){
+        for (Object[] boxe : boxes) {
+            if (boxe[1] instanceof JTextComponent) {
+                if (boxe[0].equals("Skills") || boxe[0].equals("Items")) {
                     continue;//TODO
                 }
-                me.saveValue(boxes[i][0].toString(),((JTextComponent)boxes[i][1]).getText());
+                me.saveValue(boxe[0].toString(), ((JTextComponent) boxe[1]).getText());
             }
         }
         if(newThing){
@@ -147,15 +140,15 @@ public class beastinfoscreen {
     }
 
     public void loadInfo() {
-        ArrayList<Object[]> dotSize = MainScreen.beasts.getByID(bID).getValues();
-        for (int i = 0; i < dotSize.size(); i++) {
+        Set<Map.Entry<String,Object>> tempSet = MainScreen.beasts.getByID(bID).getValues().entrySet();
+        tempSet.forEach(i->{
             for (int j = 0; j < boxes.length; j++) {
-                if(dotSize.get(i)[0].equals(boxes[j][0])){
-                    boxes[j][1] = MainScreen.beasts.getByID(bID).getValues().get(i)[1];
+                if(i.getKey().equals(boxes[j][0])){
+                    boxes[j][1] = i.getValue();
                     return;
                 }
             }
-        }
+        });
     }
 
     public void open(){

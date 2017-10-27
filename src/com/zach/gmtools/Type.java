@@ -1,44 +1,30 @@
 package com.zach.gmtools;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public interface Type {
 
-    ArrayList<Object[]> getValues();
+    HashMap<String, Object> getValues();
     String getTypeString();
     String getHolderString();
 
     default int getID(){
-        if(getValues().size()>0){
-            return Integer.parseInt(getValue("ID").toString());
-        }
-        return -1;
+        return Integer.parseInt(getValues().get("ID").toString());
     }
 
     default void readFromFile(){
         try {
-            ArrayList<Object[]> backTalk = FileProcessor.loadSingle(getTypeString(), getHolderString(),Integer.parseInt(getValues().get(0)[1].toString()));
+            HashMap<String, Object> backTalk = FileProcessor.loadSingle(getTypeString(), getHolderString(),Integer.parseInt(getValues().get("ID").toString()));
             if(backTalk == null) return;
             getValues().clear();
-            getValues().addAll(backTalk);
+            getValues().putAll(backTalk);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
     }
 
     default void saveValue(String type, Object value){
-        try {
-            for(int i=0;i<getValues().size();i++){
-                if(getValues().get(i)[0].equals(type)){
-                    getValues().get(i)[1] = value;
-                    return;
-                }
-            }
-            Object[] tempIbj = {type, value};
-            getValues().add(tempIbj);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+        getValues().put(type, value);
         writeToFile();
     }
 
@@ -52,12 +38,7 @@ public interface Type {
     }
 
     default Object getValue(String type){
-        for(int i=0;i<getValues().size();i++){
-            if(getValues().get(i)[0].equals(type)){
-                return getValues().get(i)[1];
-            }
-        }
-        return null;
+        return getValues().get(type);
     }
 
 }
