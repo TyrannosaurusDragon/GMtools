@@ -38,17 +38,13 @@ public class Beast implements com.zach.gmtools.Type {
             {"Special", ""}
     };*/
 
-    private HashMap<String, Object> Values;
+    private HashMap<String, Object> Values = new HashMap<>();
 
-    public Beast(int... id){
-        Values = new HashMap<>();
-        if(id==null){
-            new Beast(MainScreen.beasts.getNextID());
-        } else {
-            Values.put("ID",id[0]);
-        }
+    public Beast(int id){
+        Values.put("ID",id);
     }
 
+    @Override
     public HashMap<String, Object> getValues(){
         return Values;
     }

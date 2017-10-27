@@ -28,7 +28,7 @@ public class beastiaryscreen {
         refreshTable();
 
         newbutton.addActionListener(e -> {
-            Beast b = new Beast();
+            Beast b = new Beast(MainScreen.beasts.getNextID());
             int bID = b.getID();
             beastinfoscreen bin = new beastinfoscreen(bID, true);
             bin.open();

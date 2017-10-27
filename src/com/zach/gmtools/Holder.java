@@ -1,7 +1,6 @@
 package com.zach.gmtools;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,13 +30,14 @@ public interface Holder {
 	}
 
 	default Type getByID(int id){
-		System.out.println(getList().size());
 		for(int i=0;i<getList().size();i++){
 			Type tempType = getList().get(i);
 			if(tempType.getID()==id){
+				System.out.println("normal");//REMOVE
 				return tempType;
 			}
 		}
+		System.out.println("null");
 		return null;
 	}
 
