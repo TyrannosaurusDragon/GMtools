@@ -187,7 +187,6 @@ public class FileProcessor {
     public static void saveSingle(String type, String holder, HashMap<String,Object> data){
         try{
             File saveFile = new File(home+holder+"/"+data.get("ID")+".xml");
-            System.out.println(saveFile.getName());
             if(!saveFile.exists()){
                 saveFile.getParentFile().mkdirs();
             }

@@ -78,6 +78,7 @@ public class beastinfoscreen {
     private JPanel savePanel;
     private int bID;
     private boolean newThing=false;
+    private final HashMap<String,JTextComponent> boxes2 = new HashMap<>();
     private final Object[][] boxes = {
             {"HP", hpBox},
             {"Name", nameBox},
@@ -105,7 +106,8 @@ public class beastinfoscreen {
             {"CHA", chaBox},
             {"Skills", skillsBox},
             {"Items", itemsBox},
-            {"Special", specialBox}
+            {"Special", specialBox},
+            {"Sense", senseBox}
     };
 
     public beastinfoscreen(int b, boolean newClick){
@@ -131,12 +133,11 @@ public class beastinfoscreen {
             }
         }
         if(newThing){
-            me.writeToFile();
             MainScreen.beasts.add(me);
             newThing = false;
-        } else {
-            me.writeToFile();
         }
+        me.writeToFile();
+        MainScreen.beastscreen.refreshTable();
     }
 
     public void loadInfo() {
@@ -144,8 +145,10 @@ public class beastinfoscreen {
         tempSet.forEach(i->{
             for (int j = 0; j < boxes.length; j++) {
                 if(i.getKey().equals(boxes[j][0])){
-                    boxes[j][1] = i.getValue();
-                    return;
+                    if(!(boxes[j][1] instanceof JTextComponent)) continue;
+                    JTextComponent jtc = (JTextComponent)boxes[j][1];
+                    jtc.setText(i.getValue().toString());
+                    boxes[j][1] = jtc;
                 }
             }
         });

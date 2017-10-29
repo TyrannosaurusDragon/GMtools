@@ -33,11 +33,9 @@ public interface Holder {
 		for(int i=0;i<getList().size();i++){
 			Type tempType = getList().get(i);
 			if(tempType.getID()==id){
-				System.out.println("normal");//REMOVE
 				return tempType;
 			}
 		}
-		System.out.println("null");
 		return null;
 	}
 
@@ -76,8 +74,8 @@ public interface Holder {
 	default int getNextID(){
 		int idCount = getIDCount();
 		idCount++;
-		saveNextID();
 		setIDCount(idCount);
+		saveNextID();
 		return idCount;
 	}
 

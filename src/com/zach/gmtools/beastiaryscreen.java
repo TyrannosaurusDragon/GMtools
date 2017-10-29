@@ -55,6 +55,8 @@ public class beastiaryscreen {
             }
         });
         refreshButton.addActionListener(e -> refreshTable());
+        ImageIcon iicon  = new ImageIcon(new ImageIcon(getClass().getResource("/resources/search_icon.png")).getImage().getScaledInstance(20,15, Image.SCALE_SMOOTH));
+        filterbutton.setIcon(iicon);
     }
 
     private void deleteButtonPress(Beast beast){
@@ -63,14 +65,7 @@ public class beastiaryscreen {
         //TODO
     }
 
-    private void refreshTable(){
-        Action deleteButtonPressed = new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO REMOVE
-                System.out.println("Clicked");
-            }
-        };
+    public void refreshTable(){
         TableModel tableModel = new DefaultTableModel(getData(), getColumns()){
             @Override
             public boolean isCellEditable(int row, int column){
@@ -79,14 +74,14 @@ public class beastiaryscreen {
         };
         beaststable.setModel(tableModel);
         beaststable.setFillsViewportHeight(true);
-        com.zach.gmtools.ButtonColumn bc = new com.zach.gmtools.ButtonColumn(beaststable, deleteButtonPressed, 4);
+        com.zach.gmtools.ButtonColumn bc = new com.zach.gmtools.ButtonColumn(beaststable, null, 4);
         bc.setFocusBorder(new LineBorder(Color.red));
         beastsbox.getViewport().add(beaststable);
         beastsbox.repaint();
     }
 
     private String[] getColumns(){
-        return new String[]{"Name","HP","CR","XP","DELETE"};
+        return new String[]{"Name","HP","CR","XP","Remove"};
     }
 
     private Object[][] getData(){
@@ -105,7 +100,7 @@ public class beastiaryscreen {
             toReturn[i][1] = tempBeast.getValue("HP");
             toReturn[i][2] = tempBeast.getValue("CR");
             toReturn[i][3] = tempBeast.getValue("XP");
-            toReturn[i][4] = "X";
+            toReturn[i][4] = new ImageIcon(new ImageIcon(getClass().getResource("/resources/delete_icon.png")).getImage().getScaledInstance(20,15,Image.SCALE_SMOOTH));
             beastsInTable.add(tempBeast);
         }
         return toReturn;

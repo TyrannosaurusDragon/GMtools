@@ -29,7 +29,6 @@ public interface Type {
 
     default void saveValue(String type, Object value){
         getValues().put(type, value);
-        writeToFile();
     }
 
     default void writeToFile(){
