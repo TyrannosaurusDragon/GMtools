@@ -14,14 +14,12 @@ public interface Holder {
 
 	default ArrayList<Type> getBySearch(String bit){
 		ArrayList<Type> toReturn = new ArrayList<>();
-		for (int i = 0; i < getList().size(); i++) {
-			Type tempType = getList().get(i);
-			Set<Map.Entry<String,Object>> tempSet = getList().get(i).getValues().entrySet();
+		for(Type t : getList()){
+			Set<Map.Entry<String,Object>> tempSet = t.getValues().entrySet();
 			for (Map.Entry<String, Object> tempObject : tempSet) {
 				Object value = tempObject.getValue();
-				if (!(value instanceof String)) continue;
-				if (((String) value).toLowerCase().contains(bit.toLowerCase())) {
-					toReturn.add(tempType);
+				if (value.toString().toLowerCase().contains(bit.toLowerCase())) {
+					toReturn.add(t);
 					break;
 				}
 			}

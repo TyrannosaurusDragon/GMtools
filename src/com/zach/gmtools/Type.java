@@ -4,11 +4,7 @@ import java.util.HashMap;
 
 public interface Type {
 
-    default HashMap<String, Object> getValues(){
-        HashMap<String,Object> thing = new HashMap<>();
-        thing.put("ID",3000);
-        return thing;
-    }
+    HashMap<String, Object> getValues();
     String getTypeString();
     String getHolderString();
 

@@ -7,7 +7,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -25,8 +24,11 @@ public class beastiaryscreen {
     private ArrayList<Beast> beastsInTable = new ArrayList<>();
 
     public beastiaryscreen(){
-        refreshTable();
+        refreshTable(MainScreen.beasts.getList());
 
+        filterbutton.addActionListener(e -> {
+            refreshTable(MainScreen.beasts.getBySearch(searchbox.getText()));
+        });
         newbutton.addActionListener(e -> {
             Beast b = new Beast(MainScreen.beasts.getNextID());
             int bID = b.getID();
@@ -54,19 +56,19 @@ public class beastiaryscreen {
                 }
             }
         });
-        refreshButton.addActionListener(e -> refreshTable());
+        refreshButton.addActionListener(e -> refreshTable(MainScreen.beasts.getList()));
         ImageIcon iicon  = new ImageIcon(new ImageIcon(getClass().getResource("/resources/search_icon.png")).getImage().getScaledInstance(20,15, Image.SCALE_SMOOTH));
         filterbutton.setIcon(iicon);
     }
 
     private void deleteButtonPress(Beast beast){
         MainScreen.beasts.remove(beast);
-        refreshTable();
+        refreshTable(MainScreen.beasts.getList());
         //TODO
     }
 
-    public void refreshTable(){
-        TableModel tableModel = new DefaultTableModel(getData(), getColumns()){
+    public void refreshTable(ArrayList<Type> typeArrayList){
+        TableModel tableModel = new DefaultTableModel(getData(typeArrayList), getColumns()){
             @Override
             public boolean isCellEditable(int row, int column){
                 return false;
@@ -84,14 +86,14 @@ public class beastiaryscreen {
         return new String[]{"Name","HP","CR","XP","Remove"};
     }
 
-    private Object[][] getData(){
-        if(MainScreen.beasts.listSize()==0){
+    private Object[][] getData(ArrayList<Type> b){
+        if(b.size()==0){
             return new Object[0][0];
         }
         beastsInTable.clear();
-        Object[][] toReturn = new Object[MainScreen.beasts.listSize()][5];
-        for(int i = 0; i<MainScreen.beasts.listSize(); i++){
-            Object tempObj = MainScreen.beasts.getByIndex(i);
+        Object[][] toReturn = new Object[b.size()][5];
+        for(int i = 0; i<b.size(); i++){
+            Object tempObj = b.get(i);
             if(!(tempObj instanceof Beast)){
                 continue;
             }

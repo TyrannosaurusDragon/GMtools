@@ -1,6 +1,7 @@
 package com.zach.gmtools;
 
 import com.zach.gmtools.com.zach.gmtools.objects.Beast;
+import com.zach.gmtools.com.zach.gmtools.objects.Item;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
@@ -78,7 +79,7 @@ public class beastinfoscreen {
     private JPanel savePanel;
     private int bID;
     private boolean newThing=false;
-    private final HashMap<String,JTextComponent> boxes2 = new HashMap<>();
+    private ArrayList<Type> itemsInList;
     private final Object[][] boxes = {
             {"HP", hpBox},
             {"Name", nameBox},
@@ -105,12 +106,13 @@ public class beastinfoscreen {
             {"WIS", wisBox},
             {"CHA", chaBox},
             {"Skills", skillsBox},
-            {"Items", itemsBox},
+            {"Items", itemsInList},
             {"Special", specialBox},
             {"Sense", senseBox}
     };
 
     public beastinfoscreen(int b, boolean newClick){
+        itemsInList=new ArrayList<>();
         bID = b;
         if(!newClick) loadInfo();
         newThing=newClick;
@@ -126,10 +128,9 @@ public class beastinfoscreen {
         }
         for (Object[] boxe : boxes) {
             if (boxe[1] instanceof JTextComponent) {
-                if (boxe[0].equals("Skills") || boxe[0].equals("Items")) {
-                    continue;//TODO
-                }
                 me.saveValue(boxe[0].toString(), ((JTextComponent) boxe[1]).getText());
+            } else if (boxe[1] instanceof ArrayList){
+                me.saveValue(boxe[0].toString(),boxe[1]);
             }
         }
         if(newThing){
@@ -137,7 +138,7 @@ public class beastinfoscreen {
             newThing = false;
         }
         me.writeToFile();
-        MainScreen.beastscreen.refreshTable();
+        MainScreen.beastscreen.refreshTable(MainScreen.beasts.getList());
     }
 
     public void loadInfo() {

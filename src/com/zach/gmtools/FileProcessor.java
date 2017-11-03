@@ -74,7 +74,6 @@ public class FileProcessor {
             return 0;
         }
     }
-
     public static void saveIDList(String type, int id){
         try{
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -96,91 +95,6 @@ public class FileProcessor {
             trans.transform(source,result);
 
         } catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public static ArrayList<Object[][]> loadFile(String type, String holder) {
-        try {
-            ArrayList<Object[][]> objects = new ArrayList<>();
-            File loadFile = new File(home+holder+".xml");
-            if(!loadFile.exists()){
-                return null;
-            }
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(loadFile);
-            doc.getDocumentElement().normalize();
-
-            NodeList nodeList = doc.getElementsByTagName(type);
-            for(int i=0;i<nodeList.getLength();i++){
-                Object[][] singleType;
-                Node tempNode = nodeList.item(i);
-                if(tempNode.getNodeType()!=Node.ELEMENT_NODE){
-                    continue;
-                }
-                NamedNodeMap namedNodeMap = tempNode.getAttributes();
-                Object[] idObject = {namedNodeMap.item(0).getNodeName(),namedNodeMap.item(0).getTextContent()};
-
-                if(!tempNode.hasChildNodes()){
-                    continue;
-                }
-
-                NodeList objectData = tempNode.getChildNodes();
-                singleType = new Object[objectData.getLength()+1][2];
-                singleType[0][0] = idObject[0];
-                singleType[0][1] = idObject[1];
-
-                for(int j=0;j<objectData.getLength();j++){
-                    if(objectData.item(j).getNodeType()!=Node.ELEMENT_NODE){
-                        continue;
-                    }
-                    Element tempElement = (Element)objectData.item(j);
-                    singleType[j+1][0] = tempElement.getTagName();
-                    singleType[j+1][1] = tempElement.getTextContent();
-                }
-                objects.add(singleType);
-            }
-            return objects;
-        } catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public static void saveFile(String type, String holder, ArrayList<Object[][]> data){
-        try{
-            File savefile = new File(home+holder+".xml");
-            if(!savefile.exists()){
-                savefile.getParentFile().mkdirs();
-            }
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.newDocument();
-
-            Element rootElement = doc.createElement(holder);
-
-            data.forEach(f->{
-                Element object = doc.createElement(type);
-                object.setAttribute(f[0][0].toString(), f[0][1].toString());
-                rootElement.appendChild(object);
-
-                for (int i = 1; i < f.length; i++) {
-                    Element ele = doc.createElement(f[i][0].toString());
-                    ele.appendChild(doc.createTextNode(f[i][1].toString()));
-                    object.appendChild(ele);
-                }
-            });
-
-            doc.appendChild(rootElement);
-
-            TransformerFactory tf = TransformerFactory.newInstance();
-            Transformer trans = tf.newTransformer();
-            DOMSource domSource = new DOMSource(doc);
-            StreamResult result = new StreamResult(savefile);
-
-            trans.transform(domSource,result);
-        }catch (Exception e){
             e.printStackTrace();
         }
     }
