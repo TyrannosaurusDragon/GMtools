@@ -1,7 +1,6 @@
 package com.zach.gmtools;
 
 import com.zach.gmtools.com.zach.gmtools.objects.Beast;
-import com.zach.gmtools.com.zach.gmtools.objects.Item;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;

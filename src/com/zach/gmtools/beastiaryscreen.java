@@ -62,9 +62,11 @@ public class beastiaryscreen {
     }
 
     private void deleteButtonPress(Beast beast){
-        MainScreen.beasts.remove(beast);
-        refreshTable(MainScreen.beasts.getList());
-        //TODO
+        YesNoDialog ynd = new YesNoDialog("Delete " + beast.getValue("Name"), "Really delete " + beast.getValue("Name")+"?");
+        if (ynd.getReturned() == 1){
+            MainScreen.beasts.remove(beast);
+            refreshTable(MainScreen.beasts.getList());
+        }
     }
 
     public void refreshTable(ArrayList<Type> typeArrayList){
